@@ -1,0 +1,23 @@
+import { escapeHTML, shortDate } from '../core/helpers.js';
+import { renderTicketTable } from './tickets.js';
+
+function averageResolutionDays(tickets) {
+  const done = tickets.filter((ticket) => ticket.status === 'Resolvido');
+  if (!done.length) return '—';
+  const days = done.reduce((sum, ticket) => sum + Math.max(0, new Date(ticket.updatedAt) - new Date(ticket.createdAt)) / 86400000, 0) / done.length;
+  return days.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
+}
+
+export function renderDashboard({ model, currentUser }) {
+  const open = model.tickets.filter((ticket) => ticket.status !== 'Resolvido');
+  const urgent = open.filter((ticket) => ['Urgente', 'Alta'].includes(ticket.priority));
+  const mine = open.filter((ticket) => String(ticket.assigneeId || '') === String(currentUser.id)).slice(0, 3);
+  const now = new Date();
+  const weekday = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' }).format(now);
+  const salutation = now.getHours() < 12 ? 'Bom dia' : now.getHours() < 18 ? 'Boa tarde' : 'Boa noite';
+  const name = escapeHTML((currentUser.name || currentUser.email).split(' ')[0]);
+  const recent = [...model.tickets].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 4);
+  return `<section class="welcome-panel" aria-label="Resumo da central"><div class="welcome-main"><p class="eyebrow">${escapeHTML(weekday.toLocaleUpperCase('pt-BR'))} · CENTRAL DE ATENDIMENTO</p><h1>${salutation}, ${name}.</h1><p>Há ${open.length} solicitações em andamento. Veja a fila, os prazos e as atualizações mais recentes.</p><button class="button button-primary" type="button" data-action="new-ticket">Abrir chamado <span aria-hidden="true">↗</span></button></div><div class="welcome-aside"><div class="welcome-aside-inner"><span class="mini-label">ATENÇÃO DA EQUIPE</span><strong>${urgent.length ? `${urgent.length} chamados prioritários` : 'Fila sob controle'}</strong><p>${urgent.length ? 'Confira os chamados com prioridade alta e urgente.' : 'Nenhum chamado de prioridade alta ou urgente.'}</p></div></div><div class="welcome-motif" aria-hidden="true"><span></span></div></section>
+  <section class="dashboard-stats" aria-label="Indicadores do atendimento"><article class="stat-card"><div class="stat-top"><span class="stat-label">Em andamento</span><span class="stat-mark" aria-hidden="true">↗</span></div><div class="stat-value">${open.length}</div><div class="stat-caption"><span class="stat-emphasis">${model.tickets.filter((ticket) => ticket.status === 'Aberto').length} novos</span> aguardam triagem</div></article><article class="stat-card"><div class="stat-top"><span class="stat-label">Prioridade alta</span><span class="stat-mark" aria-hidden="true">!</span></div><div class="stat-value">${urgent.length}</div><div class="stat-caption">Alta ou urgente</div></article><article class="stat-card"><div class="stat-top"><span class="stat-label">Resolvidos</span><span class="stat-mark" aria-hidden="true">✓</span></div><div class="stat-value">${model.tickets.filter((ticket) => ticket.status === 'Resolvido').length}</div><div class="stat-caption">Chamados concluídos</div></article><article class="stat-card"><div class="stat-top"><span class="stat-label">Tempo médio de resolução</span><span class="stat-mark" aria-hidden="true">◷</span></div><div class="stat-value">${averageResolutionDays(model.tickets)}<span style="font-family:var(--sans);font-size:13px"> d</span></div><div class="stat-caption">Calculado sobre os resolvidos</div></article></section>
+  <div class="dashboard-lower"><section><div class="section-head"><div><h2>Chamados recentes</h2><p>Últimas atualizações da equipe</p></div><button class="button-link" type="button" data-view="tickets">Ver todos →</button></div><div class="panel activity-panel"><div class="table-scroll">${renderTicketTable(recent, false)}</div></div></section><aside class="dashboard-side"><div class="side-callout"><p class="eyebrow">ATALHO</p><h3>Precisa de ajuda?</h3><p>Registre o que aconteceu. A equipe recebe o contexto e dá sequência pelo próprio chamado.</p><button class="button-link" type="button" data-action="new-ticket">Criar solicitação →</button></div><div class="panel up-next"><h3>Minha fila</h3>${mine.length ? mine.map((ticket, index) => `<div class="queue-item"><span class="queue-index">0${index + 1}</span><div class="queue-copy"><button type="button" data-action="open-ticket" data-id="${escapeHTML(ticket.id)}">${escapeHTML(ticket.subject)}</button><small>${escapeHTML(ticket.id)} · ${escapeHTML(ticket.priority)} · ${shortDate(ticket.dueAt)}</small></div></div>`).join('') : '<div class="empty-state">Nenhum chamado atribuído a você.</div>'}</div></aside></div>`;
+}

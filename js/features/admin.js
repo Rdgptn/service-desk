@@ -1,0 +1,16 @@
+import { escapeHTML } from '../core/helpers.js';
+
+const PRIORITIES = ['Baixa', 'Média', 'Alta', 'Urgente'];
+
+function adminRows(model) {
+  const active = (model.admins || []).map((admin) => `<li><span><strong>${escapeHTML(admin.name)}</strong><small>${escapeHTML(admin.email)}</small></span><span class="account-status">${escapeHTML(admin.status)}</span></li>`).join('');
+  const pending = (model.pendingAdminInvites || []).map((invite) => `<li><span><strong>${escapeHTML(invite.email)}</strong><small>Pré-autorizado por administrador</small></span><span class="account-status pending">${escapeHTML(invite.status)}</span></li>`).join('');
+  return active + pending || '<li>Não há contas administrativas cadastradas.</li>';
+}
+
+export function renderAdmin(model, pageHeading) {
+  return `${pageHeading('GESTÃO DO SISTEMA', 'Configurações', 'Gerencie as opções de atendimento e as permissões da equipe.', false)}
+    <div class="admin-layout"><section class="panel admin-card"><h2>Categorias de atendimento</h2><p>Use nomes que ajudem a encaminhar a solicitação.</p><ul class="admin-list">${model.categories.map((category) => `<li><span>${escapeHTML(category)}</span><button class="remove-button" type="button" data-action="delete-category" data-category="${escapeHTML(category)}" aria-label="Remover categoria ${escapeHTML(category)}">Remover</button></li>`).join('')}</ul><form class="inline-form" id="category-form"><label class="sr-only" for="category-name">Nova categoria</label><input id="category-name" name="category" maxlength="50" placeholder="Nome da categoria" required /><button class="button button-quiet button-small" type="submit">Adicionar</button></form><div class="demo-note">As categorias alteradas aparecem no formulário de abertura.</div></section>
+    <section class="panel admin-card"><h2>Admins do sistema</h2><p>Conceda perfil admin a um e-mail de domínio corporativo autorizado. Se a pessoa ainda não tiver conta, ficará pré-autorizada e receberá esse papel quando se cadastrar com o mesmo e-mail.</p><ul class="admin-account-list">${adminRows(model)}</ul><form class="admin-form" id="admin-form"><label class="field"><span>E-mail corporativo</span><input name="email" type="email" maxlength="254" autocomplete="email" placeholder="nome@empresa.com" required /></label><button class="button button-primary button-small" type="submit">Adicionar administrador</button></form><div class="demo-note">O sistema não envia e-mail. Avise a pessoa pelos canais internos e confirme a identidade antes de conceder acesso.</div></section>
+    <section class="panel admin-card"><h2>Equipes e prazos</h2><p>Defina a equipe padrão e os prazos-alvo por prioridade.</p><form class="admin-fields" id="settings-form"><label>Equipes (separadas por vírgula)<input name="teams" value="${escapeHTML(model.teams.join(', '))}" maxlength="800" required /></label>${PRIORITIES.map((priority) => `<label>Prazo para prioridade ${escapeHTML(priority)}<input name="sla-${escapeHTML(priority)}" value="${escapeHTML(model.sla[priority] || '')}" maxlength="40" required /></label>`).join('')}<button class="button button-primary" type="submit">Salvar alterações</button></form><div class="demo-note">Use formatos como “4 horas” ou “2 dias úteis”. O prazo é aplicado a novos chamados; chamados existentes mantêm seu prazo.</div></section></div>`;
+}

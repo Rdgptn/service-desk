@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4f2eb" />
+    <meta name="description" content="Central interna para abrir, acompanhar e resolver solicitações de suporte." />
+    <title>Central de Atendimento · Ponto</title>
+    <link rel="stylesheet" href="../css/app.css" />
+    <script type="module" src="../js/main.js"></script>
+  </head>
+  <body data-role="anonymous">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navegação principal">
+        <a class="brand" href="/" aria-label="Ponto — início">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="brand-word">ponto<span>.</span></span>
+        </a>
+        <div class="workspace-label" id="workspace-label">ESPAÇO DE TRABALHO</div>
+        <nav class="primary-nav" aria-label="Seções" hidden>
+          <button class="nav-item is-active" data-view="overview" type="button"><span class="nav-icon" aria-hidden="true">⌂</span><span>Visão geral</span></button>
+          <button class="nav-item" data-view="tickets" type="button"><span class="nav-icon" aria-hidden="true">▤</span><span>Todos os chamados</span><span class="nav-count" id="nav-open-count">—</span></button>
+          <button class="nav-item" data-view="queue" type="button"><span class="nav-icon" aria-hidden="true">↗</span><span>Minha fila</span><span class="nav-dot" aria-hidden="true"></span></button>
+          <div class="nav-divider"></div>
+          <div class="workspace-label nav-section-label">ANÁLISE</div>
+          <button class="nav-item" data-view="reports" type="button"><span class="nav-icon" aria-hidden="true">▥</span><span>Relatórios</span></button>
+          <button class="nav-item" data-view="admin" type="button"><span class="nav-icon" aria-hidden="true">⚙</span><span>Configurações</span></button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="sidebar-note" id="sidebar-note"><span class="online-mark" aria-hidden="true"></span><span>Atendimento ativo<br /><strong>Seg–Sex, 8h às 18h</strong></span></div>
+          <div class="sidebar-user" id="sidebar-user" hidden>
+            <span class="avatar avatar-sidebar" id="sidebar-avatar" aria-hidden="true">—</span>
+            <span class="user-copy"><strong id="sidebar-user-name">Conta</strong><small id="sidebar-user-role">Solicitante</small></span>
+          </div>
+        </div>
+      </aside>
+
+      <main id="conteudo" class="main-area" tabindex="-1">
+        <header class="topbar" id="topbar" hidden>
+          <div class="breadcrumb"><span>Central</span><span class="crumb-slash">/</span><strong id="current-section">Abertura de chamado</strong></div>
+          <div class="topbar-actions">
+            <label class="search-box" id="search-wrapper" for="global-search"><span aria-hidden="true">⌕</span><input id="global-search" type="search" placeholder="Buscar chamados" autocomplete="off" /><kbd>/</kbd></label>
+            <button class="icon-button notification-button" id="notification-button" type="button" aria-label="Ver notificações" aria-expanded="false" aria-controls="notification-panel"><span aria-hidden="true">♧</span><i aria-hidden="true"></i></button>
+            <span class="avatar avatar-top" id="top-avatar" aria-hidden="true">—</span>
+            <button class="button button-quiet button-small" id="password-button" type="button">Trocar senha</button>
+            <button class="button button-quiet button-small" id="logout-button" type="button">Sair</button>
+          </div>
+          <section id="notification-panel" class="notification-panel" hidden aria-label="Notificações recentes"></section>
+        </header>
+        <div id="app" class="page-content" aria-live="polite" aria-busy="true">
+          <div class="loading-state">Conectando à central…</div>
+        </div>
+      </main>
+    </div>
+    <div id="toast-region" class="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <dialog id="new-ticket-dialog" class="dialog dialog-form" aria-labelledby="new-ticket-title">
+      <form id="new-ticket-form" novalidate>
+        <div class="dialog-heading"><div><p class="eyebrow">NOVA SOLICITAÇÃO</p><h2 id="new-ticket-title">O que precisa de atenção?</h2><p class="dialog-intro">Informe quem solicita e descreva o problema com contexto.</p></div><button class="dialog-close" type="button" data-close-dialog="new-ticket-dialog" aria-label="Fechar formulário">×</button></div>
+        <div class="form-grid">
+          <label class="field"><span>Nome do solicitante <b aria-hidden="true">*</b></span><input name="requesterName" id="requester-name" required maxlength="100" autocomplete="name" /></label>
+          <label class="field"><span>Setor <b aria-hidden="true">*</b></span><input name="department" required maxlength="80" placeholder="Ex.: Financeiro" autocomplete="organization-title" /></label>
+          <label class="field field-wide"><span>Assunto <b aria-hidden="true">*</b></span><input name="subject" required maxlength="100" placeholder="Ex.: Não consigo acessar o sistema financeiro" /></label>
+          <label class="field"><span>Categoria <b aria-hidden="true">*</b></span><select name="category" id="new-category" required></select></label>
+          <label class="field"><span>Prioridade</span><select name="priority"><option>Baixa</option><option selected>Média</option><option>Alta</option><option>Urgente</option></select></label>
+          <label class="field field-wide"><span>Descrição <b aria-hidden="true">*</b></span><textarea name="description" rows="4" required maxlength="1500" placeholder="O que aconteceu? Quando começou? Há alguma mensagem de erro?"></textarea><small>Não inclua senhas ou dados pessoais sensíveis.</small></label>
+          <label class="field field-wide"><span>Anexo <small>(opcional)</small></span><input name="attachment" type="file" /><small>O protótipo registra somente o nome do arquivo; o arquivo não é enviado.</small></label>
+        </div>
+        <p id="new-ticket-error" class="form-error" role="alert"></p>
+        <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog="new-ticket-dialog">Cancelar</button><button class="button button-primary" type="submit">Abrir chamado <span aria-hidden="true">↗</span></button></div>
+      </form>
+    </dialog>
+
+    <dialog id="ticket-dialog" class="dialog dialog-ticket" aria-label="Detalhes do chamado"><div id="ticket-dialog-content"></div></dialog>
+
+    <dialog id="password-dialog" class="dialog dialog-form" aria-labelledby="password-dialog-title">
+      <form id="password-form" novalidate>
+        <div class="dialog-heading"><div><p class="eyebrow">SEGURANÇA DA CONTA</p><h2 id="password-dialog-title">Trocar senha</h2><p class="dialog-intro">Escolha uma senha exclusiva com pelo menos 12 caracteres.</p></div><button class="dialog-close" type="button" data-close-dialog="password-dialog" aria-label="Fechar troca de senha">×</button></div>
+        <label class="field"><span>Senha atual</span><input name="currentPassword" type="password" autocomplete="current-password" required /></label>
+        <label class="field"><span>Nova senha</span><input name="newPassword" type="password" minlength="12" maxlength="128" autocomplete="new-password" required /></label>
+        <label class="field"><span>Confirme a nova senha</span><input name="confirmPassword" type="password" minlength="12" maxlength="128" autocomplete="new-password" required /></label>
+        <p id="password-error" class="form-error" role="alert"></p>
+        <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog="password-dialog">Cancelar</button><button class="button button-primary" type="submit">Salvar nova senha</button></div>
+      </form>
+    </dialog>
+  </body>
+</html>

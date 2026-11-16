@@ -1,0 +1,131 @@
+{
+  "categories": ["Acesso e contas", "Equipamentos", "Sistemas internos", "Rede e conectividade", "Outros"],
+  "teams": ["Suporte interno", "Infraestrutura", "Sistemas"],
+  "agents": ["Camila Martins", "Rafael Costa", "Bruna Almeida", "Diego Nunes"],
+  "sla": {
+    "Urgente": "4 horas",
+    "Alta": "8 horas",
+    "Média": "2 dias úteis",
+    "Baixa": "5 dias úteis"
+  },
+  "tickets": [
+    {
+      "id": "HD-2481",
+      "subject": "Acesso ao sistema de compras bloqueado",
+      "description": "Depois da atualização de ontem, minha conta aparece como bloqueada. Já tentei redefinir a senha, mas não recebi o e-mail. Preciso liberar o acesso para concluir o pedido desta semana.",
+      "category": "Acesso e contas",
+      "priority": "Alta",
+      "status": "Em atendimento",
+      "requester": "Marina Lopes",
+      "department": "Financeiro",
+      "assignee": "Camila Martins",
+      "team": "Suporte interno",
+      "createdAt": "2026-11-16T08:22:00-03:00",
+      "updatedAt": "2026-11-16T10:14:00-03:00",
+      "dueAt": "2026-11-16T16:22:00-03:00",
+      "comments": [
+        {"author": "Marina Lopes", "text": "O bloqueio começou depois da troca de senha.", "at": "2026-11-16T08:22:00-03:00"},
+        {"author": "Camila Martins", "text": "Estou verificando o registro de autenticação. Já te aviso por aqui.", "at": "2026-11-16T10:14:00-03:00"}
+      ],
+      "history": [
+        {"text": "Chamado aberto por Marina Lopes", "at": "2026-11-16T08:22:00-03:00"},
+        {"text": "Atribuído a Camila Martins", "at": "2026-11-16T09:05:00-03:00"},
+        {"text": "Status alterado para Em atendimento", "at": "2026-11-16T10:14:00-03:00"}
+      ]
+    },
+    {
+      "id": "HD-2480",
+      "subject": "Monitor da sala 3 sem sinal",
+      "description": "O monitor da sala de reunião 3 liga, mas não recebe sinal do cabo HDMI.",
+      "category": "Equipamentos",
+      "priority": "Média",
+      "status": "Aberto",
+      "requester": "Pedro Nascimento",
+      "department": "Comercial",
+      "assignee": "Rafael Costa",
+      "team": "Infraestrutura",
+      "createdAt": "2026-11-16T09:48:00-03:00",
+      "updatedAt": "2026-11-16T09:48:00-03:00",
+      "dueAt": "2026-11-18T17:00:00-03:00",
+      "comments": [],
+      "history": [{"text": "Chamado aberto por Pedro Nascimento", "at": "2026-11-16T09:48:00-03:00"}]
+    },
+    {
+      "id": "HD-2479",
+      "subject": "Planilha de custos não atualiza os dados",
+      "description": "A planilha compartilhada parou de atualizar a conexão com os dados de vendas.",
+      "category": "Sistemas internos",
+      "priority": "Alta",
+      "status": "Aguardando solicitante",
+      "requester": "Ana Beatriz Souza",
+      "department": "Operações",
+      "assignee": "Bruna Almeida",
+      "team": "Sistemas",
+      "createdAt": "2026-11-15T14:10:00-03:00",
+      "updatedAt": "2026-11-16T09:32:00-03:00",
+      "dueAt": "2026-11-16T17:00:00-03:00",
+      "comments": [{"author": "Bruna Almeida", "text": "Pode confirmar se a mensagem de erro aparece em todas as abas?", "at": "2026-11-16T09:32:00-03:00"}],
+      "history": [
+        {"text": "Chamado aberto por Ana Beatriz Souza", "at": "2026-11-15T14:10:00-03:00"},
+        {"text": "Solicitada confirmação sobre a mensagem de erro", "at": "2026-11-16T09:32:00-03:00"}
+      ]
+    },
+    {
+      "id": "HD-2478",
+      "subject": "Instabilidade no Wi-Fi do 2º andar",
+      "description": "Quedas rápidas na rede sem fio durante chamadas de vídeo.",
+      "category": "Rede e conectividade",
+      "priority": "Urgente",
+      "status": "Em triagem",
+      "requester": "Lucas Ferreira",
+      "department": "Produto",
+      "assignee": "Diego Nunes",
+      "team": "Infraestrutura",
+      "createdAt": "2026-11-16T07:16:00-03:00",
+      "updatedAt": "2026-11-16T08:01:00-03:00",
+      "dueAt": "2026-11-16T12:00:00-03:00",
+      "comments": [],
+      "history": [{"text": "Chamado aberto por Lucas Ferreira", "at": "2026-11-16T07:16:00-03:00"}]
+    },
+    {
+      "id": "HD-2477",
+      "subject": "Instalar fonte aprovada no computador",
+      "description": "Preciso da família tipográfica aprovada para fechar o material institucional.",
+      "category": "Equipamentos",
+      "priority": "Baixa",
+      "status": "Resolvido",
+      "requester": "Juliana Melo",
+      "department": "Marketing",
+      "assignee": "Camila Martins",
+      "team": "Suporte interno",
+      "createdAt": "2026-11-13T11:26:00-03:00",
+      "updatedAt": "2026-11-14T15:44:00-03:00",
+      "dueAt": "2026-11-20T17:00:00-03:00",
+      "comments": [{"author": "Camila Martins", "text": "A fonte foi instalada e já está disponível nos aplicativos.", "at": "2026-11-14T15:44:00-03:00"}],
+      "history": [
+        {"text": "Chamado aberto por Juliana Melo", "at": "2026-11-13T11:26:00-03:00"},
+        {"text": "Status alterado para Resolvido", "at": "2026-11-14T15:44:00-03:00"}
+      ]
+    },
+    {
+      "id": "HD-2476",
+      "subject": "Permissão para pasta do projeto Aurora",
+      "description": "Solicito acesso de leitura à pasta compartilhada do projeto Aurora.",
+      "category": "Acesso e contas",
+      "priority": "Média",
+      "status": "Resolvido",
+      "requester": "Henrique Dias",
+      "department": "Produto",
+      "assignee": "Rafael Costa",
+      "team": "Suporte interno",
+      "createdAt": "2026-11-12T16:30:00-03:00",
+      "updatedAt": "2026-11-13T10:15:00-03:00",
+      "dueAt": "2026-11-16T17:00:00-03:00",
+      "comments": [],
+      "history": [
+        {"text": "Chamado aberto por Henrique Dias", "at": "2026-11-12T16:30:00-03:00"},
+        {"text": "Permissão concedida por Rafael Costa", "at": "2026-11-13T10:15:00-03:00"}
+      ]
+    }
+  ]
+}
