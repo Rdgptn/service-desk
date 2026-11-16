@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ponto — Central de Atendimento
 
 Help Desk em Node.js/Express e PostgreSQL. Funcionários criam uma conta com e-mail corporativo e senha; cada conta recebe automaticamente um ID interno no banco e começa como solicitante. Só admins veem fila, chamados, relatórios e configurações.
@@ -70,3 +71,6 @@ helpdesk/
 ├── json/helpdesk.json          # Sementes de categorias, equipes e SLA
 └── database/README.md
 ```
+=======
+# service-desk
+>>>>>>> origin/main
